@@ -74,7 +74,7 @@
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 100;
+            z-index: 200;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -89,52 +89,76 @@
             font-size: 22px;
             font-weight: 600;
             color: var(--verde-claro);
-            z-index: 102;
+            z-index: 202;
+            position: relative;
         }
 
         .hamburguesa {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             cursor: pointer;
-            z-index: 102;
+            z-index: 202;
+            position: relative;
         }
 
         .hamburguesa span {
-            width: 25px;
+            width: 30px;
             height: 3px;
             background-color: var(--verde-claro);
             border-radius: 3px;
-            transition: 0.3s;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            transform-origin: center;
+        }
+
+        .hamburguesa.activa span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburguesa.activa span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburguesa.activa span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
         }
 
         nav {
             position: fixed;
             top: 0;
-            right: -100%;
-            width: 70%;
+            left: 0;
+            width: 100%;
             height: 100vh;
-            background-color: var(--blanco);
-            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(254, 252, 247, 0.98);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: right 0.4s ease;
-            z-index: 101;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            z-index: 201;
+            backdrop-filter: blur(5px);
         }
 
         nav.nav-activa {
-            right: 0;
+            opacity: 1;
+            visibility: visible;
         }
 
         nav ul {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 30px;
-            font-size: 1.2rem;
+            gap: 40px;
+            font-size: 2rem;
+            font-weight: 600;
             text-align: center;
+        }
+
+        nav ul li a {
+            position: relative;
+            transition: color 0.3s;
         }
 
         nav ul li a:hover {
@@ -151,8 +175,7 @@
 
         #inicio {
             text-align: center;
-            background: linear-gradient(rgba(254, 252, 247, 0.7), rgba(254, 252, 247, 0.9)),
-                url('./Imagenes/principal.webp') center/cover;
+            background: linear-gradient(rgba(254, 252, 247, 0.7), rgba(254, 252, 247, 0.9)), url('./Imagenes/principal.webp') center/cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -187,7 +210,7 @@
             background-color: var(--blanco);
             text-align: center;
             border-radius: 20px;
-            margin: -30px 20px 0 20px;
+            margin: -30px 20px 150px 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             padding: 40px 20px;
             position: relative;
@@ -203,44 +226,94 @@
 
         #resenas {
             text-align: center;
-            background-color: var(--gris-suave);
+            background-color: var(--fondo);
+            padding-top: 60px;
+            padding-bottom: 80px;
         }
 
-        .grid-resenas {
+        .subtitulo-resenas {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .carrusel-resenas {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 30px;
-            align-items: center;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 15px;
+            padding-bottom: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .carrusel-resenas::-webkit-scrollbar {
+            display: none;
         }
 
         .tarjeta-resena {
             background-color: var(--blanco);
             padding: 25px;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 350px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-top: 4px solid var(--verde-claro);
+            border-radius: 20px;
+            min-width: 85%;
+            scroll-snap-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .estrellas {
-            color: #ffc107;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+        .perfil-resena {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 5px;
         }
 
-        .autor-resena {
-            margin-top: 15px;
-            display: block;
+        .avatar {
+            width: 45px;
+            height: 45px;
+            background-color: var(--marron-claro);
+            color: var(--blanco);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
+        .info-usuario {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nombre-usuario {
+            font-weight: 600;
+            color: var(--texto);
+            line-height: 1.2;
+        }
+
+        .estrellas {
+            color: #fbbc04;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        .texto-resena {
+            font-style: italic;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
         .nota-google {
-            margin-top: 30px;
+            margin-top: 20px;
             font-size: 0.85rem;
-            color: #777;
+            color: #999;
         }
 
         footer {
@@ -263,10 +336,6 @@
             font-size: 1rem;
         }
 
-        .enlaces-footer a:hover {
-            color: var(--verde-claro);
-        }
-
         .info-contacto {
             font-size: 0.85rem;
             color: #bbb;
@@ -277,83 +346,144 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 200;
+            z-index: 300;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.7);
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .modal.activo {
             display: flex;
+            opacity: 1;
         }
 
         .modal-contenido {
             background-color: var(--fondo);
-            padding: 40px 30px;
-            border-radius: 15px;
+            padding: 30px 20px;
+            border-radius: 10px;
             width: 90%;
-            max-width: 500px;
+            max-width: 400px;
             position: relative;
-            max-height: 85vh;
-            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            background-image: radial-gradient(#d4a373 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            background-color: #fffdf8;
         }
 
         .cerrar-modal {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 30px;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            color: var(--marron-claro);
+            color: var(--texto);
+            z-index: 10;
         }
 
-        .cerrar-modal:hover {
-            color: var(--verde-claro);
+        .contenedor-paginas {
+            position: relative;
+            min-height: 350px;
         }
 
-        .modal-contenido h2 {
+        .pagina-menu {
+            display: none;
+            animation: aparecerPagina 0.4s ease forwards;
+        }
+
+        .pagina-menu.activa {
+            display: block;
+        }
+
+        @keyframes aparecerPagina {
+            from {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .pagina-menu h2 {
             color: var(--verde-claro);
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
+            font-size: 1.5rem;
         }
 
-        .categoria-menu {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            color: var(--texto);
-            font-weight: 600;
-            font-size: 1.2rem;
-            border-bottom: 2px solid var(--marron-claro);
-            padding-bottom: 5px;
+        .subtitulo-pagina {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--marron-claro);
+            padding-bottom: 10px;
         }
 
         .item-menu {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             align-items: baseline;
         }
 
         .item-nombre {
             font-weight: 600;
+            font-size: 1.05rem;
         }
 
         .item-precio {
             color: var(--marron-claro);
             font-weight: 600;
+            font-size: 1.05rem;
         }
 
         .item-desc {
             font-size: 0.85rem;
             color: #666;
             display: block;
-            margin-top: -5px;
+            margin-top: 0;
             margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .controles-libro {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #ccc;
+        }
+
+        .btn-pagina {
+            background: none;
+            border: none;
+            color: var(--marron-claro);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .btn-pagina:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .indicador-pag {
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: 600;
         }
 
         @media (min-width: 769px) {
@@ -373,6 +503,9 @@
                 background: none;
                 box-shadow: none;
                 display: block;
+                opacity: 1;
+                visibility: visible;
+                filter: none;
             }
 
             nav ul {
@@ -385,40 +518,17 @@
                 display: block;
             }
 
-            section {
-                padding: 80px 50px;
-            }
-
-            #inicio h1 {
-                font-size: 3.5rem;
-            }
-
-            #inicio p {
-                font-size: 1.2rem;
-            }
-
-            .botones-inicio {
-                flex-direction: row;
-                max-width: none;
-                justify-content: center;
-            }
-
-            #quienes-somos {
-                max-width: 800px;
-                margin: -50px auto 0 auto;
-                padding: 60px;
-            }
-
-            .grid-resenas {
-                flex-direction: row;
-                justify-content: center;
+            .carrusel-resenas {
                 flex-wrap: wrap;
-                gap: 30px;
+                justify-content: center;
+                overflow-x: hidden;
+                scroll-snap-type: none;
             }
 
             .tarjeta-resena {
+                min-width: 300px;
                 width: calc(33.33% - 20px);
-                max-width: 320px;
+                max-width: 350px;
             }
 
             .enlaces-footer {
@@ -436,9 +546,7 @@
         <div class="logo">La Terraza de Casi</div>
 
         <div class="hamburguesa" id="btn-hamburguesa">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </div>
 
         <nav id="menu-navegacion">
@@ -462,34 +570,34 @@
 
     <section id="quienes-somos">
         <h2>Un refugio en la ciudad</h2>
-        <p>En La Terraza de Casi nos apasiona crear momentos. Lo que empezó como un pequeño sueño familiar se ha
-            convertido en el lugar de encuentro para los amantes de la buena comida y las largas conversaciones. Nuestro
-            compromiso es ofrecerte productos frescos de temporada, un servicio cercano y un ambiente donde desconectar
-            del mundo.</p>
+        <p>En La Terraza de Casi nos apasiona crear momentos. Nuestro compromiso es ofrecerte productos frescos de
+            temporada, un servicio cercano y un ambiente donde desconectar del mundo.</p>
     </section>
 
     <section id="resenas">
-        <h2>Qué dicen nuestros amigos</h2>
-        <p>Opiniones de clientes reales directamente desde Google Reviews.</p>
-        <div class="grid-resenas">
+        <h2>Opiniones de clientes</h2>
+        <p class="subtitulo-resenas">Las reseñas irán conectadas con Google y tambien podran añadirlas desde aqui</p>
+        <div class="carrusel-resenas">
             <div class="tarjeta-resena">
-                <div class="estrellas">★★★★★</div>
-                <p>"La Terraza de Casi es un descubrimiento. La atención es de diez y la comida espectacular."</p>
-                <span class="autor-resena">- Juan P.</span>
+                <div class="perfil-resena">
+                    <div class="avatar" style="background-color: var(--verde-claro);">J</div>
+                    <div class="info-usuario"><span class="nombre-usuario">Juan Pérez</span>
+                        <div class="estrellas">★★★★★</div>
+                    </div>
+                </div>
+                <p class="texto-resena">"La atención es de diez y la comida espectacular. Las vistas al atardecer son
+                    preciosas."</p>
             </div>
             <div class="tarjeta-resena">
-                <div class="estrellas">★★★★★</div>
-                <p>"Vistas increíbles, música perfecta y unas croquetas que te hacen llorar de felicidad. Muy top!"</p>
-                <span class="autor-resena">- Ana M.</span>
+                <div class="perfil-resena">
+                    <div class="avatar" style="background-color: #d4a373;">A</div>
+                    <div class="info-usuario"><span class="nombre-usuario">Ana Martín</span>
+                        <div class="estrellas">★★★★★</div>
+                    </div>
+                </div>
+                <p class="texto-resena">"Vistas increíbles, música perfecta y unas croquetas que te hacen llorar de
+                    felicidad."</p>
             </div>
-            <div class="tarjeta-resena">
-                <div class="estrellas">★★★★★</div>
-                <p>"Ideal para una cena romántica o con amigos. Volveremos sin duda, nos sentimos como en casa."</p>
-                <span class="autor-resena">- Carlos T.</span>
-            </div>
-        </div>
-        <div class="nota-google">
-            <em>Integración con Google Reviews (Próximamente)</em>
         </div>
     </section>
 
@@ -497,69 +605,75 @@
         <div class="enlaces-footer">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
-            <a href="https://goo.gl/maps/tu-enlace-aqui" target="_blank" rel="noopener noreferrer">Cómo llegar (Google
-                Maps)</a>
+            <a href="https://goo.gl/maps/tu-enlace-aqui" target="_blank" rel="noopener noreferrer">Google Maps</a>
         </div>
         <div class="info-contacto">
             <p>© 2026 La Terraza de Casi. Todos los derechos reservados.</p>
-            <p>C. Falsa 123, Madrid, España | +34 123 456 789</p>
         </div>
     </footer>
 
     <div id="ventana-menu" class="modal">
         <div class="modal-contenido">
             <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
-            <h2>La Carta</h2>
 
-            <div class="categoria-menu">Para Compartir</div>
-            <div class="item-menu">
-                <span class="item-nombre">Croquetas de Jamón Ibérico</span>
-                <span class="item-precio">10€</span>
+            <div class="contenedor-paginas">
+
+                <div class="pagina-menu activa" id="pag-1">
+                    <h2>Entrantes</h2>
+                    <p class="subtitulo-pagina">Para ir abriendo boca</p>
+                    <div class="item-menu"><span class="item-nombre">Croquetas Ibéricas</span><span
+                            class="item-precio">10€</span></div><span class="item-desc">Cremosas por dentro, crujientes
+                        por fuera (6 uds).</span>
+                    <div class="item-menu"><span class="item-nombre">Tabla de Quesos</span><span
+                            class="item-precio">14€</span></div><span class="item-desc">Selección artesana con mermelada
+                        de higos.</span>
+                    <div class="item-menu"><span class="item-nombre">Bravas "Casi"</span><span
+                            class="item-precio">8€</span></div><span class="item-desc">Patinas crujientes con nuestra
+                        salsa secreta ligeramente picante.</span>
+                </div>
+
+                <div class="pagina-menu" id="pag-2">
+                    <h2>Principales</h2>
+                    <p class="subtitulo-pagina">Del mar y la tierra</p>
+                    <div class="item-menu"><span class="item-nombre">Ensalada de la Huerta</span><span
+                            class="item-precio">12€</span></div><span class="item-desc">Tomates, aguacate, nueces y
+                        vinagreta.</span>
+                    <div class="item-menu"><span class="item-nombre">Lomo de Salmón</span><span
+                            class="item-precio">18€</span></div><span class="item-desc">Al horno con espárragos
+                        trigueros y puré.</span>
+                    <div class="item-menu"><span class="item-nombre">Hamburguesa Trufada</span><span
+                            class="item-precio">15€</span></div><span class="item-desc">Carne 100% vacuno, queso brie y
+                        mayonesa de trufa.</span>
+                </div>
+
+                <div class="pagina-menu" id="pag-3">
+                    <h2>Postres</h2>
+                    <p class="subtitulo-pagina">El toque dulce</p>
+                    <div class="item-menu"><span class="item-nombre">Tarta de Queso Fluida</span><span
+                            class="item-precio">6€</span></div><span class="item-desc">Nuestra especialidad horneada al
+                        momento.</span>
+                    <div class="item-menu"><span class="item-nombre">Brownie con Helado</span><span
+                            class="item-precio">5.50€</span></div><span class="item-desc">Chocolate intenso con helado
+                        de vainilla artesano.</span>
+                </div>
+
             </div>
-            <span class="item-desc">Cremosas por dentro, crujientes por fuera (6 uds).</span>
 
-            <div class="item-menu">
-                <span class="item-nombre">Tabla de Quesos Artesanos</span>
-                <span class="item-precio">14€</span>
+            <div class="controles-libro">
+                <button class="btn-pagina" id="btn-prev" onclick="cambiarPagina(-1)" disabled>◄ Anterior</button>
+                <span class="indicador-pag" id="texto-pag">1 / 3</span>
+                <button class="btn-pagina" id="btn-next" onclick="cambiarPagina(1)">Siguiente ►</button>
             </div>
-            <span class="item-desc">Selección de la zona con mermelada de higos.</span>
 
-            <div class="categoria-menu">Platos Principales</div>
-            <div class="item-menu">
-                <span class="item-nombre">Ensalada de la Huerta</span>
-                <span class="item-precio">12€</span>
-            </div>
-            <span class="item-desc">Tomates de temporada, aguacate, nueces y vinagreta de mostaza.</span>
-
-            <div class="item-menu">
-                <span class="item-nombre">Lomo de Salmón al Horno</span>
-                <span class="item-precio">18€</span>
-            </div>
-            <span class="item-desc">Acompañado de espárragos trigueros y puré de boniato.</span>
-
-            <div class="categoria-menu">Postres</div>
-            <div class="item-menu">
-                <span class="item-nombre">Tarta de Queso Fluida</span>
-                <span class="item-precio">6€</span>
-            </div>
-            <span class="item-desc">Nuestra especialidad, horneada al momento.</span>
-
-            <br>
-            <button onclick="cerrarModal()" class="btn btn-verde" style="width: 100%; margin-top: 10px;">Cerrar
-                Menú</button>
         </div>
     </div>
 
     <script>
         const navbar = document.getElementById('navbar');
-
         window.addEventListener('scroll', function () {
-            if (window.innerWidth <= 768) {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('header-oculto');
-                } else {
-                    navbar.classList.remove('header-oculto');
-                }
+            if (window.innerWidth <= 768 && !menuNavegacion.classList.contains('nav-activa')) {
+                if (window.scrollY > 50) { navbar.classList.add('header-oculto'); }
+                else { navbar.classList.remove('header-oculto'); }
             }
         });
 
@@ -567,33 +681,51 @@
         const menuNavegacion = document.getElementById('menu-navegacion');
         const linksMenu = document.querySelectorAll('.link-menu');
 
-        btnHamburguesa.addEventListener('click', () => {
+        function alternarMenu() {
+            btnHamburguesa.classList.toggle('activa');
             menuNavegacion.classList.toggle('nav-activa');
-        });
+            if (menuNavegacion.classList.contains('nav-activa')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
 
-        linksMenu.forEach(link => {
-            link.addEventListener('click', () => {
-                menuNavegacion.classList.remove('nav-activa');
-            });
-        });
+        btnHamburguesa.addEventListener('click', alternarMenu);
+        linksMenu.forEach(link => { link.addEventListener('click', alternarMenu); });
 
         const modal = document.getElementById('ventana-menu');
+        let paginaActual = 1;
+        const totalPaginas = 3;
 
         function abrirModal() {
             modal.classList.add('activo');
+            document.body.style.overflow = 'hidden';
         }
 
         function cerrarModal() {
             modal.classList.remove('activo');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => { paginaActual = 1; actualizarLibro(); }, 300);
         }
 
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                cerrarModal();
+        window.onclick = function (event) { if (event.target == modal) { cerrarModal(); } }
+
+        function cambiarPagina(direccion) {
+            paginaActual += direccion;
+            actualizarLibro();
+        }
+
+        function actualizarLibro() {
+            for (let i = 1; i <= totalPaginas; i++) {
+                document.getElementById('pag-' + i).classList.remove('activa');
             }
+            document.getElementById('pag-' + paginaActual).classList.add('activa');
+            document.getElementById('texto-pag').innerText = paginaActual + " / " + totalPaginas;
+            document.getElementById('btn-prev').disabled = (paginaActual === 1);
+            document.getElementById('btn-next').disabled = (paginaActual === totalPaginas);
         }
     </script>
-
 </body>
 
 </html>
